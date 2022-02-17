@@ -22,22 +22,24 @@
         #dp,.s1,.a1,.a1 div{flex-direction: column;
             display: flex;align-items: center;justify-content: center;}
         #dp{
-            background-color: rgb(0,0,0);
+            background-color: rgb(233,233,233);
             width: 100%;height: 100%;}
         .s1{
             overflow: hidden;
-            border-radius: 40px;
-            background-color: rgb(255,255,255);}
+            border-radius: 40px;}
 
         .a1{
-            border-bottom: 1px solid #000;
+            background-color: rgba(255, 255, 255);
             font-size: 1.2rem;font-weight: bold;
             width: 300px;height: 150px;}
         .a1 div{flex-direction: row;}
         .a2{
+            width: 100%;
+            background-color: #fff;
+            border-radius: 0 0 40px 40px;
             font-size: 1.1rem;font-weight: bold;
             color: var(--clr);text-align: center;
-            margin: 20px;padding: 15px 0;}
+            margin: auto;padding: 30px 0;}
 
         .a1 input{
             margin-left: 10px;
@@ -48,25 +50,31 @@
 </head>
 <body>
     <main id="dp">
-        <section class="s1">
-            <article class="a1">
-                <div>R :<input type="range" name="r" id="clr-r"></div>
-                <div>G :<input type="range" name="g" id="clr-g"></div>
-                <div>B :<input type="range" name="b" id="clr-b"></div>
+        <section class="s1" id="s1">
+            <article class="a1" id="a1">
+                <div>R :<input oninput="clr()" min="0" max="255" value="0" step="1" type="range" name="r" id="clr-r"></div>
+                <div>G :<input oninput="clr()" min="0" max="255" value="0" step="1" type="range" name="g" id="clr-g"></div>
+                <div>B :<input oninput="clr()" min="0" max="255" value="0" step="1" type="range" name="b" id="clr-b"></div>
             </article>
-            <article class="a2 color-code" id="color-code" onclick="copy()">RGB (0, 0, 0)</article>
+            <article class="a2 color-code" id="color-code" onclick="copy()">Choose Color!</article>
         </section>
     </main>
     <script type="text/javascript">
         const cc = document.getElementById("color-code");
         const dp = document.getElementById("dp");
-
-        function changeBgClr(){
-            let c = '#';
-            c += Math.random().toString(16).slice(2,8);//0123456789ABCDEF
-            dp.style.backgroundColor = c;
-            cc.innerText = c;
+        const s1 = document.getElementById("s1");
+        const a1 = document.getElementById("a1");
+        
+        function clr(){
+            let r = document.getElementById('clr-r').value;
+            let g = document.getElementById('clr-g').value;
+            let b = document.getElementById('clr-b').value;
+            cc.innerHTML = `RGB (${r}, ${g}, ${b})`;
+            dp.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            a1.style.backgroundColor = 'rgba(255,255,255,0.8)';
+            s1.style.boxShadow = `10px 10px 50px rgba(${r-30}, ${g-30}, ${b-50}, 0.6)`;
         }
+        
         function copy(){
             navigator.clipboard.writeText(cc.innerText).then(function(){alert( cc.innerText + " is copied!")});
         }
